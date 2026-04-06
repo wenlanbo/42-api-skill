@@ -54,17 +54,22 @@ Works with any AI agent that can read markdown and make HTTP requests:
 - ✅ Any MCP-compatible agent
 - ✅ Custom agents with shell/HTTP access
 
-## File Structure
+## Repository Structure
 
 ```
-42-api/
-├── SKILL.md                      # Main skill file — quick reference + curl examples
-└── references/
-    └── api-schemas.md            # Full endpoint docs — parameters, response schemas
+.
+├── README.md                          # This file
+├── LICENSE                            # MIT License
+└── 42-api/                            # Skill folder — drop this into your agent
+    ├── SKILL.md                       # Main skill file (quick reference + curl examples)
+    └── references/
+        └── api-schemas.md             # Full endpoint docs (parameters + response schemas)
 ```
 
-- **SKILL.md** (~4KB): Concise quick-reference with copy-paste curl examples for all 17 endpoints
-- **api-schemas.md** (~10KB): Complete parameter tables and response field documentation
+**To install:** Copy the `42-api/` directory into your agent's skills folder. That's it.
+
+- **SKILL.md** (~5KB): Concise quick-reference with copy-paste curl examples for all 17 endpoints, plus common workflow patterns
+- **api-schemas.md** (~10KB): Complete parameter tables and response field documentation for every endpoint
 
 ## API Overview
 
@@ -78,20 +83,30 @@ All endpoints are read-only `GET` requests. No authentication, no API keys, no s
 # Markets
 GET /api/v1/markets                              # List/filter markets
 GET /api/v1/markets/{address}                     # Single market details
+GET /api/v1/markets/{address}/timeline            # Lifecycle events
 GET /api/v1/markets/categories                    # All categories
+GET /api/v1/markets/categories/{slug}             # Category by slug
+GET /api/v1/markets/tokens                        # All outcome tokens
 
-# Pricing
-GET /api/v1/market-data/prices?market={addr}      # Current outcome prices
-GET /api/v1/market-data/prices/history             # Price history
-GET /api/v1/market-data/ohlc                       # OHLC candlesticks
+# Pricing & Charts
+GET /api/v1/market-data/prices                    # Current outcome prices
+GET /api/v1/market-data/prices/history            # Price history
+GET /api/v1/market-data/ohlc                      # OHLC candlesticks
+
+# Stats
+GET /api/v1/market-data/stats                     # Batch market stats (up to 50)
+GET /api/v1/market-data/tokens/stats              # Token stats with deltas
+GET /api/v1/market-data/holders                   # Outcome token holders
 
 # Portfolio
-GET /api/v1/market-data/positions?user={wallet}    # Open positions
-GET /api/v1/market-data/activity?user={wallet}     # Trade activity
+GET /api/v1/market-data/positions                 # Open positions by wallet
+GET /api/v1/market-data/closed-positions          # Closed positions
+GET /api/v1/market-data/activity                  # User activity feed
 
 # Leaderboard
-GET /api/v1/market-data/leaderboard                # Trader rankings
+GET /api/v1/market-data/leaderboard               # Trader rankings
 GET /api/v1/market-data/leaderboard/stats/{wallet} # Wallet deep stats
+GET /api/v1/market-data/leaderboard/top-trades    # Top trades globally
 ```
 
 ## 42 Market Model
